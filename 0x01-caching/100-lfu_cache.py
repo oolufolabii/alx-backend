@@ -55,6 +55,7 @@ class LRUCache(BaseCaching):
                 if key_freq[1] == 0:
                     ins_index = i
                     break
+
             self.keys_freq.insert(ins_index, [key, 0])
         else:
             self.cache_data[key] = item
