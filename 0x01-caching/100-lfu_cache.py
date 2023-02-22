@@ -1,23 +1,27 @@
-#!/usr/bin/python3#!/usr/bin/python3
-"""Python Module for LRU xcaching"""
+#!/usr/bin/env python3
+"""Least Frequently Used caching module.
+"""
 from collections import OrderedDict
+
 from base_caching import BaseCaching
 
 
-class LRUCache(BaseCaching):
-    """An object that stores and retrieve items from
-    a dictionary, using LRU algorithm, until
-    a limit is reached"""
-
+class LFUCache(BaseCaching):
+    """Represents an object that allows storing and
+    retrieving items from a dictionary with a LFU
+    removal mechanism when the limit is reached.
+    """
     def __init__(self):
-        """Initialize the cache"""
+        """Initializes the cache.
+        """
         super().__init__()
         self.cache_data = OrderedDict()
         self.keys_freq = []
 
-    def __reorder_data(self, mru_key):
-        """Reordering the items in the cache base on the
-        most recently used data"""
+    def __reorder_items(self, mru_key):
+        """Reorders the items in this cache based on the most
+        recently used item.
+        """
         max_positions = []
         mru_freq = 0
         mru_pos = 0
@@ -40,7 +44,8 @@ class LRUCache(BaseCaching):
         self.keys_freq.insert(ins_pos, [mru_key, mru_freq])
 
     def put(self, key, item):
-        """Adds data to the cache"""
+        """Adds an item in the cache.
+        """
         if key is None or item is None:
             return
         if key not in self.cache_data:
@@ -55,14 +60,14 @@ class LRUCache(BaseCaching):
                 if key_freq[1] == 0:
                     ins_index = i
                     break
-
             self.keys_freq.insert(ins_index, [key, 0])
         else:
             self.cache_data[key] = item
-            self.__reorder_data(key)
+            self.__reorder_items(key)
 
     def get(self, key):
-        """Returns data by key from the cache"""
+        """Retrieves an item by key.
+        """
         if key is not None and key in self.cache_data:
-            self.__reorder_data(key)
+            self.__reorder_items(key)
         return self.cache_data.get(key, None)
