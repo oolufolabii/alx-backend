@@ -11,6 +11,7 @@ class LFUCache(BaseCaching):
     retrieving items from a dictionary with a LFU
     removal mechanism when the limit is reached.
     """
+
     def __init__(self):
         """Initializes the cache.
         """
